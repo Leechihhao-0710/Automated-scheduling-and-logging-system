@@ -1,0 +1,41 @@
+# Maven build files
+target/
+!target/dependency-jars/
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs (runtime generated)
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Database files (local development only)
+*.db
+*.sqlite
+Local MySQL.session.sql
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Build tools
+.mvn/wrapper/maven-wrapper.jar
+
+# Docker compose override files (keep main docker-compose.yml)
+docker-compose.override.yml
+docker-compose.prod.yml

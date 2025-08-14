@@ -1,0 +1,89 @@
+#step 1 : Create a MySQL container , initialize the data structure and initialize data
+#step 2 : start the spring-boot container
+#step 3 : the containers connect with same virtual network
+#step 4 : MySQL data and app_logs persistence
+#step 5 : health check in-build , ensure the control of container status and start order 
+
+
+version: '3.8'
+
+services:
+  # MySQL service
+  mysql:
+    image: mysql:8.0
+    container_name: tms-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: task_management_system
+      MYSQL_USER: tms
+      MYSQL_PASSWORD: tmspass
+      TZ: Europe/London
+    ports:
+      - "3307:3306"  # avoid confict with local database
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/database:/docker-entrypoint-initdb.d
+    networks:
+      - tms-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 40s
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Spring Boot application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tms-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      # database
+      DB_USERNAME: tms
+      DB_PASSWORD: tmspass
+      
+      # JWT 
+      JWT_SECRET: dockerSecretKey2024TaskManagementSystemVeryLongKey123456
+      JWT_EXPIRATION: 86400000
+      
+      # email
+      MAIL_HOST: smtp.gmail.com
+      MAIL_PORT: 587
+      MAIL_USERNAME: chihhao1study@gmail.com
+      MAIL_PASSWORD: fbfforbwoqannspb
+      MAIL_FROM: chihhao1study@gmail.com
+      EMAIL_ENABLED: true
+      
+      # time
+      TZ: Europe/London
+    ports:
+      - "8080:8080"
+    volumes:
+      - app_logs:/app/logs
+    networks:
+      - tms-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+
+# network
+networks:
+  tms-network:
+    driver: bridge
+
+# Data persistence
+volumes:
+  mysql_data:
+    driver: local
+  app_logs:
+    driver: local

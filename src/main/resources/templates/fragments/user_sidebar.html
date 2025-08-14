@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="user_sidebar">
+        <nav class="sidebar">
+            <div class="welcome-section">
+                <h3 class="welcome-title">Welcome back</h3>
+                <p class="welcome-user" id="sidebar-user-name">User Name</p>
+            </div>
+
+            <div class="nav-menu">
+                <a href="/user/dashboard" class="nav-item" th:classappend="${activePage}=='dashboard' ? 'active'">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+
+                <a href="/user/user-task-management" class="nav-item" th:classappend="${activePage}=='user-task-management' ? 'active'">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Task management</span>
+                </a>
+                
+                <a href="/user/current-tasks" class="nav-item" th:classappend="${activePage}=='current-tasks' ? 'active'">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-text">View current tasks</span>
+                </a>
+                
+                <a href="/user/overview" class="nav-item" th:classappend="${activePage}=='overview' ? 'active'">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Overview</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <button type="button" class="nav-item logout-btn" onclick="logout()">
+                    <span class="nav-icon">↩️</span>
+                    <span class="nav-text">Log out</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>

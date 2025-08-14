@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('role');
+
+            if (!token || !role) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const targetUrl = role === 'ADMIN' ? '/admin/dashboard' : '/user/dashboard';
+
+            try {
+                const response = await fetch(targetUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (response.ok) {
+                    window.location.href = targetUrl;
+                } else {
+                    window.location.href = '/login?unauthorized';
+                }
+
+            } catch (err) {
+                console.error('Redirect error:', err);
+                window.location.href = '/login?error';
+            }
+        });
+    </script>
+</head>
+<body>
+    <p>Redirecting, please wait...</p>
+</body>
+</html>

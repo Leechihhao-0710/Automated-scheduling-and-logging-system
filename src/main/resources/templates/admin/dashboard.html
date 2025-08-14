@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Task Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin/admin_layout.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Automated scheduling and logging system</h1>
+                <div class="page-info">
+                    <span class="current-date" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMMM dd, yyyy')}">
+                        Monday, January 15, 2024
+                    </span>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div class="welcome-card">
+                    <h2>🎯 Admin Dashboard</h2>
+                    <p>Welcome to your administration panel. Use the navigation menu to manage users, departments, and tasks.</p>
+                </div>
+
+
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">👨‍💻</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="totalEmployees">loading</h3>
+                            <p class="stat-label">Total Employees</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number"id="activeTasks">loading</h3>
+                            <p class="stat-label">Active Tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number"id="overdueTasks">loading</h3>
+                            <p class="stat-label">Overdue</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number"id="completedTasks">loading</h3>
+                            <p class="stat-label">Completed</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="system-status">
+                    <h3>🖥️ System Status</h3>
+                    <div class="status-item">
+                        <span class="status-indicator active"></span>
+                        <span>All systems operational</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-indicator active"></span>
+                        <span>Quartz Scheduler running</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-indicator active"></span>
+                        <span>Database connected</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/authFetch.js}"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
+    <script th:src="@{/js/adminDashboard.js}"></script>
+</body>
+</html>

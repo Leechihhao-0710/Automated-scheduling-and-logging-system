@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Overview - Task Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin/admin_layout.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/admin_overview.css}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Admin Overview</h1>
+                <div class="page-info">
+                    <span class="current-date" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMMM dd, yyyy')}">
+                        Monday, January 15, 2024
+                    </span>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="form-label">Department</label>
+                            <select class="form-select" id="departmentFilter">
+                                <option value="">All Departments</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Employee</label>
+                            <select class="form-select" id="employeeFilter">
+                                <option value="">All Employees</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="PENDING">Pending</option>
+                                <option value="IN_PROGRESS">In Progress</option>
+                                <option value="COMPLETED">Completed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Task Type</label>
+                            <select class="form-select" id="typeFilter">
+                                <option value="">All Types</option>
+                                <option value="PERSONAL">Personal</option>
+                                <option value="MEETING">Meeting</option>
+                                <option value="MAINTENANCE">Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
+                                <i class="fas fa-undo me-1"></i>Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Creator</label>
+                            <select class="form-select" id="creatorFilter">
+                                <option value="">All Tasks</option>
+                                <option value="admin">Admin</option>
+                                <option value="employee">Employee</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Overdue Tasks</label>
+                            <select class="form-select" id="overdueFilter">
+                                <option value="">All Tasks</option>
+                                <option value="show">Show Only Overdue</option>
+                                <option value="hide">Hide Overdue</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="startDateFilter">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="endDateFilter">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Search</label>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search by title or description">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-primary w-100" onclick="applyFilters()">
+                                <i class="fas fa-search me-1"></i>Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Section -->
+                <div class="stats-section" id="statsSection" style="display: none;">
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="totalTasks">0</h3>
+                            <p class="stat-label">Total Tasks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="pendingTasks">0</h3>
+                            <p class="stat-label">Pending</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔄</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="inProgressTasks">0</h3>
+                            <p class="stat-label">In Progress</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="completedTasks">0</h3>
+                            <p class="stat-label">Completed</p>
+                        </div>
+                    </div>
+                    <div class="stat-card overdue-stat">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="overdueTasks">0</h3>
+                            <p class="stat-label">Overdue</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Table -->
+                <div class="table-section" id="tableSection" style="display: none;">
+                    <div class="table-header">
+                        <h3>Task Results</h3>
+                        <button class="btn btn-success" onclick="exportResults()" id="exportBtn">
+                            <i class="fas fa-download me-2"></i>Export Report
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Creator</th>
+                                    <th>Assigned To</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tasksTableBody">
+                                <!-- Results will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-search fa-3x mb-3"></i>
+                    <h3>No Results</h3>
+                    <p>Apply filters above to view task overview data</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal fade" id="taskDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"id="taskDetailModalLabel">Task Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="taskDetailContent">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/adminOverview.js}"></script>
+    <script th:src="@{/js/authFetch.js}"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
+</body>
+</html>

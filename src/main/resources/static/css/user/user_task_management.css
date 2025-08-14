@@ -1,0 +1,194 @@
+
+.action-bar {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    text-align: right;
+}
+
+.btn-add {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.btn-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+    color: white;
+}
+
+/* Task Creation  */
+.task-creation-section {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.task-creation-section h3 {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.task-creation-section p {
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    border-bottom: none;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+/* Task Actions for User Created Tasks */
+.task-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+}
+
+/* Task Type Badges for Personal Tasks */
+.task-type.personal {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+}
+
+/* Personal Task Indicator */
+.task-item.personal-task {
+    border-left: 4px solid #27ae60;
+}
+
+.task-item.assigned-task {
+    border-left: 4px solid #3498db;
+}
+
+/* Task Status Icons */
+.task-status-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.task-status-icon.pending {
+    color: #f39c12;
+}
+
+.task-status-icon.in-progress {
+    color: #3498db;
+}
+
+.task-status-icon.completed {
+    color: #27ae60;
+}
+
+/* Creator Badge */
+.creator-badge {
+    background: #27ae60;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.creator-badge.me {
+    background: #9b59b6;
+}
+
+.creator-badge.admin {
+    background: #e74c3c;
+}
+
+/* Empty State for Personal Tasks */
+.empty-state.personal {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 60px 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.empty-state.personal i {
+    color: #27ae60;
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.empty-state.personal h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.empty-state.personal p {
+    color: #7f8c8d;
+    margin-bottom: 25px;
+}
+
+.empty-state.personal .btn {
+    background: #27ae60;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.empty-state.personal .btn:hover {
+    background: #229954;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+}
+
+@media (max-width: 768px) {
+    .action-bar {
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .task-actions {
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .btn-add {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}

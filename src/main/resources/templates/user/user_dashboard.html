@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Task Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/user/user_dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/user/user_sidebar.css}">
+
+</head>
+<body>
+    <div class="dashboard-container">
+        <div th:replace="fragments/user_sidebar :: user_sidebar"></div>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Automated scheduling and logging system</h1>
+                <div class="page-info">
+                    <span class="current-date" th:text="${#dates.format(#dates.createNow(), 'EEEE, MMMM dd, yyyy')}">
+                        Monday, January 15, 2024
+                    </span>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div class="welcome-card">
+                    <h2>👤 My Dashboard</h2>
+                    <p>Welcome to your personal workspace. Here you can view and manage your assigned tasks.</p>
+                </div>
+
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">loading</h3>
+                            <p class="stat-label">My Active Tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">loading</h3>
+                            <p class="stat-label">Due Today</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">loading</h3>
+                            <p class="stat-label">Overdue</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">loading</h3>
+                            <p class="stat-label">Completed This Month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="today-tasks">
+                    <h3>📅 Upcoming Tasks</h3>
+                    <div class="task-list">
+                        <div class="task-item pending">
+                            <div class="task-status">○</div>
+                            <div class="task-content">
+                                <h4>Weekly Safety Check</h4>
+                                <p class="task-time">Due: 2:00 PM</p>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item pending">
+                            <div class="task-status">○</div>
+                            <div class="task-content">
+                                <h4>Submit Equipment Report</h4>
+                                <p class="task-time">Due: 5:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-notifications">
+                    <h3>🔔 Recent Notifications</h3>
+                    <div class="notification-list">
+                        <div class="notification-item">
+                            <div class="notification-icon">📋</div>
+                            <div class="notification-content">
+                                <h4>New task assigned</h4>
+                                <p>"Equipment Maintenance" has been assigned to you</p>
+                                <span class="notification-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="notification-icon">⏰</div>
+                            <div class="notification-content">
+                                <h4>Task reminder</h4>
+                                <p>"Weekly Safety Check" is due today</p>
+                                <span class="notification-time">4 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/authFetch.js}"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
+    <script th:src="@{/js/userDashboard.js}"></script>
+</body>
+</html>

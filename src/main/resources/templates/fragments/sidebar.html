@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="sidebar">
+        <nav class="sidebar">
+            <div class="welcome-section">
+                <h3 class="welcome-title">Welcome back</h3>
+                <p class="welcome-user" id="sidebar-user-name">Admin User</p>
+            </div>
+
+            <div class="nav-menu">
+                <a href="/admin/dashboard" class="nav-item" th:classappend="${activePage}=='dashboard' ? 'active'">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+
+                <a href="/employees" class="nav-item" th:classappend="${activePage}=='employees' ? 'active'">
+                    <span class="nav-icon">🧑‍💼</span>
+                    <span class="nav-text">Employee management</span>
+                </a>
+
+                <a href="/departments" class="nav-item" th:classappend="${activePage}=='departments' ? 'active'">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Department & Machines management</span>
+                </a>
+
+                <a href="/tasks" class="nav-item" th:classappend="${activePage}=='tasks' ? 'active'">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Task management</span>
+                </a>
+
+                <a href="/admin/overview" class="nav-item" th:classappend="${activePage}=='overview' ? 'active'">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Overview</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                    <button type="button" class="nav-item logout-btn" onclick="logout()">
+                        <span class="nav-icon">↩️</span>
+                        <span class="nav-text">Log out</span>
+                    </button>
+            </div>
+        </nav>
+    </div>
+
+</body>
+</html>
