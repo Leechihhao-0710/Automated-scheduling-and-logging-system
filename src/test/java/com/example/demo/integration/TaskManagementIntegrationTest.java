@@ -230,12 +230,10 @@ class TaskManagementIntegrationTest {
     @Test
     @DisplayName("Integration: Should retrieve all tasks assigned to employee")
     void getEmployeeTasks_shouldReturnAllAssignedTasks() {
-        // Given - 創建多個任務分配給同一員工
         Task task1 = createTestTask("Task 1", TaskType.PERSONAL);
         Task task2 = createTestTask("Task 2", TaskType.MEETING);
         Task task3 = createTestTask("Task 3", TaskType.MAINTENANCE);
 
-        // 分配任務
         taskService.createTaskWithAssignments(task1, null, Arrays.asList(userEmployee1.getId()));
         taskService.createTaskWithAssignments(task2, null, Arrays.asList(userEmployee1.getId()));
         taskService.createTaskWithAssignments(task3, null, Arrays.asList(userEmployee2.getId())); // 分配給其他員工

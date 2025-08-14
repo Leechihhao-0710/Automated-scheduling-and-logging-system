@@ -107,7 +107,7 @@ class TaskAssignmentServiceTest {
                 String report = null;
 
                 testAssignment.setIndividualStatus(TaskStatus.PENDING);
-                testAssignment.setStartedAt(null); // 尚未開始
+                testAssignment.setStartedAt(null);
 
                 when(taskAssignmentRepository.findByTaskIdAndEmployeeId(taskId, employeeId))
                                 .thenReturn(Optional.of(testAssignment));
@@ -142,7 +142,7 @@ class TaskAssignmentServiceTest {
 
                 testAssignment.setIndividualStatus(TaskStatus.IN_PROGRESS);
                 testAssignment.setStartedAt(LocalDateTime.now().minusHours(2));
-                testAssignment.setAssignedAt(null); // 設為 null 以測試邏輯
+                testAssignment.setAssignedAt(null);
 
                 when(taskAssignmentRepository.findByTaskIdAndEmployeeId(taskId, employeeId))
                                 .thenReturn(Optional.of(testAssignment));
@@ -208,7 +208,7 @@ class TaskAssignmentServiceTest {
                 when(taskService.getTaskByIdOrThrow(taskId)).thenReturn(testTask);
                 when(employeeService.getEmployeeByIdOrThrow(employeeId)).thenReturn(testEmployee);
                 when(taskAssignmentRepository.findByTaskIdAndEmployeeId(taskId, employeeId))
-                                .thenReturn(Optional.empty()); // 沒有現有的分配
+                                .thenReturn(Optional.empty());
                 when(taskAssignmentRepository.save(any(TaskAssignment.class)))
                                 .thenAnswer(invocation -> {
                                         TaskAssignment savedAssignment = invocation.getArgument(0);
@@ -244,7 +244,7 @@ class TaskAssignmentServiceTest {
                 when(taskService.getTaskByIdOrThrow(taskId)).thenReturn(testTask);
                 when(employeeService.getEmployeeByIdOrThrow(employeeId)).thenReturn(testEmployee);
                 when(taskAssignmentRepository.findByTaskIdAndEmployeeId(taskId, employeeId))
-                                .thenReturn(Optional.of(testAssignment)); // 已存在的分配
+                                .thenReturn(Optional.of(testAssignment));
 
                 // When & Then
                 RuntimeException exception = assertThrows(RuntimeException.class, () -> {
