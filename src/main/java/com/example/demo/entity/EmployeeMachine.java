@@ -14,7 +14,7 @@ public class EmployeeMachine {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "machine_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "machine_id", referencedColumnName = "id", nullable = false) // foreign key - machine_id
     @JsonIgnoreProperties({ "employeeMachines", "department", "hibernateLazyInitializer", "handler" })
     private Machine machine;
 

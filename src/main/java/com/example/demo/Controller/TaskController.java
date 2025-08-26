@@ -47,7 +47,6 @@ public class TaskController {
     @Autowired
     private TaskAssignmentRepository taskAssignmentRepository;
 
-    // @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public String adminDashboard(@AuthenticationPrincipal Employee employee, Model model) {
         model.addAttribute("user", employee);
@@ -55,26 +54,8 @@ public class TaskController {
         return "admin/task_management";
     }
 
-    // @PreAuthorize("hasRole('USER')")
-    // @GetMapping("/user")
-    // public String showUserTasks(@AuthenticationPrincipal Employee employee, Model
-    // model) {
-    // model.addAttribute("user", employee);
-    // model.addAttribute("activePage", "tasks");
-    // return "user/user_tasks";
-    // }
-
-    // @PreAuthorize("hasRole('USER')")
-    // @GetMapping("/user/userTaskManagement")
-    // public String userTaskManagement(@AuthenticationPrincipal Employee employee,
-    // Model model) {
-    // model.addAttribute("user", employee);
-    // model.addAttribute("activePage", "userTaskManagement");
-    // return "user/user_task_management";
-    // }
-
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/api/list")
+    @GetMapping("/api/list") // show the task list according to the conditions
     @ResponseBody
     public ResponseEntity<List<Map<String, Object>>> getTaskByFilter(
             @RequestParam(required = false) String taskType,
@@ -113,7 +94,7 @@ public class TaskController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/api/{id}")
+    @GetMapping("/api/{id}") // get specific task
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getTaskById(@PathVariable Long id) {
         try {
@@ -128,7 +109,7 @@ public class TaskController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/api/create")
+    @PostMapping("/api/create") // create task
     @ResponseBody
     public ResponseEntity<?> createTask(@RequestBody Map<String, Object> taskData) {
         try {
@@ -143,10 +124,10 @@ public class TaskController {
                 task.setLocation((String) taskData.get("location"));
             }
 
-            Boolean isRecurring = (Boolean) taskData.get("recurring");
+            Boolean isRecurring = (Boolean) taskData.get("recurring");// select if the task is recurring task
             if (isRecurring != null && isRecurring) {
                 task.setRecurring(true);
-                if (taskData.get("recurrenceType") != null) {
+                if (taskData.get("recurrenceType") != null) {// recurring type - weekly / monthly
                     task.setRecurrenceType(RecurrenceType.valueOf((String) taskData.get("recurrenceType")));
                 }
                 if (taskData.get("recurrenceInterval") != null) {
@@ -161,20 +142,13 @@ public class TaskController {
                 if (taskData.get("recurringDayOfMonth") != null) {
                     task.setRecurringDayOfMonth((Integer) taskData.get("recurringDayOfMonth"));
                 }
-                if (taskData.get("skipWeekends") != null) {
+                if (taskData.get("skipWeekends") != null) {// this system will skip the weekends
                     task.setSkipWeekends((Boolean) taskData.get("skipWeekends"));
                 }
             }
 
-            // if (taskData.get("emailReminder") != null) {
-            // task.setEmailReminder((Boolean) taskData.get("emailReminder"));
-            // }
-            // if (taskData.get("reminderDaysBefore") != null) {
-            // task.setReminderDaysBefore((Integer) taskData.get("reminderDaysBefore"));
-            // }
-
             Integer departmentId = (Integer) taskData.get("departmentId");
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings("unchecked") // tell compiler to ignore the type transfer
             List<String> employeeIds = (List<String>) taskData.get("employeeIds");
 
             Task savedTask = taskService.createTaskWithAssignments(task, departmentId, employeeIds);
@@ -189,7 +163,7 @@ public class TaskController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @PostMapping("/api/user/create")
+    @PostMapping("/api/user/create") // create the task by user
     @ResponseBody
     public ResponseEntity<?> createUserTask(@AuthenticationPrincipal Employee employee,
             @RequestBody Map<String, Object> taskData) {
@@ -219,7 +193,7 @@ public class TaskController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/api/update/{id}")
+    @PutMapping("/api/update/{id}") // update the task information
     @ResponseBody
     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Map<String, Object> taskData) {
         try {
@@ -267,14 +241,6 @@ public class TaskController {
                 }
             }
 
-            // if (taskData.get("emailReminder") != null) {
-            // taskDetails.setEmailReminder((Boolean) taskData.get("emailReminder"));
-            // }
-            // if (taskData.get("reminderDayssBefore") != null) {
-            // taskDetails.setReminderDaysBefore((Integer)
-            // taskData.get("reminderDaysBefore"));
-            // }
-
             Integer departmentId = (Integer) taskData.get("departmentId");
             @SuppressWarnings("unchecked")
             List<String> employeeIds = (List<String>) taskData.get("employeeIds");
@@ -294,7 +260,7 @@ public class TaskController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/api/delete/{id}")
+    @DeleteMapping("/api/delete/{id}") // delete task
     @ResponseBody
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
         try {
@@ -317,8 +283,8 @@ public class TaskController {
         try {
             Task task = taskService.getTaskByIdOrThrow(id);
 
-            if (!task.getCreator().getId().equals(employee.getId())) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            if (!task.getCreator().getId().equals(employee.getId())) {// to check if the task is created by current user
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)// if not -> return forbidden error
                         .body(createErrorResponse("You can only delete tasks created by yourself"));
             }
 
@@ -342,7 +308,7 @@ public class TaskController {
             String statusStr = (String) statusData.get("status");
             TaskStatus newStatus = TaskStatus.valueOf(statusStr);
 
-            Task updatedTask = taskService.updateTaskStatus(id, newStatus);
+            Task updatedTask = taskService.updateTaskStatus(id, newStatus);// update the status
             return ResponseEntity.ok(convertTaskToMap(updatedTask));
 
         } catch (RuntimeException e) {
@@ -378,7 +344,7 @@ public class TaskController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/api/departments/{departmentId}/employees")
+    @GetMapping("/api/departments/{departmentId}/employees") // get the employees in the specific department
     @ResponseBody
     public ResponseEntity<List<Map<String, Object>>> getEmployeesByDepartment(@PathVariable Integer departmentId) {
         try {
@@ -465,9 +431,6 @@ public class TaskController {
         taskMap.put("recurrenceInterval", task.getRecurrenceInterval());
         taskMap.put("recurrenceEndDate",
                 task.getRecurrenceEndDate() != null ? task.getRecurrenceEndDate().toString() : null);
-        // taskMap.put("emailReminder", task.isEmailReminder());
-        // taskMap.put("reminderDaysBefore", task.getReminderDaysBefore());
-        // taskMap.put("reminderSent", task.isReminderSent());
         taskMap.put("createdAt", task.getCreatedAt().toString());
         taskMap.put("updatedAt", task.getUpdatedAt().toString());
 
@@ -504,14 +467,14 @@ public class TaskController {
         return taskMap;
     }
 
-    private Map<String, Object> createErrorResponse(String message) {
+    private Map<String, Object> createErrorResponse(String message) {// define the error response type
         Map<String, Object> response = new HashMap<>();
         response.put("error", true);
         response.put("message", message);
         return response;
     }
 
-    private Map<String, Object> createSuccessResponse(String message) {
+    private Map<String, Object> createSuccessResponse(String message) {// define the success response type
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("message", message);

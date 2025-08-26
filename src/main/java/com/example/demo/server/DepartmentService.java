@@ -41,7 +41,7 @@ public class DepartmentService {
 
     public Department updateDepartment(Integer id, Department departmentDetails) {
         Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("department not foud with id " + id));
+                .orElseThrow(() -> new RuntimeException("department not found with id " + id));
         if (!department.getName().equals(departmentDetails.getName())) {
             if (departmentRepository.existsByName(departmentDetails.getName())) {
                 throw new RuntimeException("department name exists " + departmentDetails.getName());
@@ -54,7 +54,7 @@ public class DepartmentService {
 
     public void deleteDepartment(Integer id) {
         if (!departmentRepository.existsById(id)) {
-            throw new RuntimeException("department not foud with id " + id);
+            throw new RuntimeException("department not found with id " + id);
         }
         departmentRepository.deleteById(id);
     }

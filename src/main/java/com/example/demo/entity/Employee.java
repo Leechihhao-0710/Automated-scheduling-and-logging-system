@@ -44,7 +44,7 @@ public class Employee {
     @Column(unique = true, length = 100)
     private String email;
 
-    @Enumerated(EnumType.STRING) // the enum type transfor into carchar(string) and store
+    @Enumerated(EnumType.STRING) // the enum type transfer into carchar(string) and store
     @Column(nullable = false)
     private Role role = Role.USER;
 
@@ -65,7 +65,7 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
-    @JsonIgnoreProperties({ "machines", "hibernateLazyInitializer", "handler" })
+    @JsonIgnoreProperties({ "machines", "hibernateLazyInitializer", "handler" }) // prevent dead loop
     private Department department;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

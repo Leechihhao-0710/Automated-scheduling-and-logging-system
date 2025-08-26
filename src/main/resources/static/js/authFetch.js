@@ -5,18 +5,15 @@
  *  API request add Authorization header automatically
  */
 function authFetch(url, options = {}) {
-    const token = localStorage.getItem('token');
-    
+    const token = localStorage.getItem('token'); 
     const defaultHeaders = {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/json'
-    };
-    
+    }; 
     options.headers = {
         ...defaultHeaders,
         ...options.headers
-    };
-    
+    }; 
     return fetch(url, options);
 }
 

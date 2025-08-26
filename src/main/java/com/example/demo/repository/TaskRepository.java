@@ -55,10 +55,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
         @Query("SELECT DISTINCT t FROM Task t JOIN t.taskAssignments ta WHERE ta.employee.id = :employeeId")
         List<Task> findByAssignedEmployeeId(@Param("employeeId") String employeeId);
 
-        // @Query("select t from Task t join t.assignedEmployees e where
-        // e.id=:employeeId")
-        // List<Task> findByAssignedEmployeeId(@Param("employeeId") String employeeId);
-
         List<Task> findByDepartment(Department department);
 
         List<Task> findByDepartmentAndStatus(Department department, TaskStatus status);

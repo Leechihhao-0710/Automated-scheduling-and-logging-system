@@ -18,7 +18,7 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     @Value("${app.email.from}")
-    private String fromEmail;// get the offical email from application properties
+    private String fromEmail;// get the official email from application properties
 
     @Value("${app.email.enabled:true}") // open the send email functionality
     private boolean emailEnabled;

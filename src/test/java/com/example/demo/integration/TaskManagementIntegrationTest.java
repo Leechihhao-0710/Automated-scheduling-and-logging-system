@@ -236,7 +236,7 @@ class TaskManagementIntegrationTest {
 
         taskService.createTaskWithAssignments(task1, null, Arrays.asList(userEmployee1.getId()));
         taskService.createTaskWithAssignments(task2, null, Arrays.asList(userEmployee1.getId()));
-        taskService.createTaskWithAssignments(task3, null, Arrays.asList(userEmployee2.getId())); // 分配給其他員工
+        taskService.createTaskWithAssignments(task3, null, Arrays.asList(userEmployee2.getId()));
 
         // When
         List<TaskAssignment> employeeTasks = taskAssignmentRepository

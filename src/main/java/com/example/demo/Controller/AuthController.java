@@ -12,16 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+//receive the user's account and password and check -> right -> generate JWT token return to frontend
+
 @RestController
 @RequestMapping("/api")
 public class AuthController {
 
     @Autowired
     private EmployeeService employeeService;
-
+    // search the employee information from database
     @Autowired
     private JwtUtil jwtUtil;
-
+    // self define JWT tool , to generate/authenticate token
     @Autowired
     private PasswordEncoder passwordEncoder;
 

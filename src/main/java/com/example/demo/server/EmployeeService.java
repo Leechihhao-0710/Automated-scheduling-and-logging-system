@@ -63,7 +63,7 @@ public class EmployeeService {
 
         if (employee.getEmail() != null && employeeRepository.existsByEmail(employee.getEmail())) {
             throw new RuntimeException("Email exists" + employee.getEmail());
-        } // check if the employee email alreadty exists
+        } // check if the employee email already exists
         if (departmentId != null) {
             Department department = departmentRepository.findById(departmentId)
                     .orElseThrow(() -> new RuntimeException("department not found with id" + departmentId));
@@ -78,7 +78,10 @@ public class EmployeeService {
             employee.setRole(Role.USER);
         }
 
-        Employee savedEmployee = employeeRepository.saveAndFlush(employee);// save or update the employee
+        Employee savedEmployee = employeeRepository.saveAndFlush(employee);// update the information to DB
+                                                                           // immediately/if only use save , it will
+                                                                           // save to Hibernate cache not execute SQL
+                                                                           // command
 
         if (machineIds != null && !machineIds.isEmpty()) {// assigned the machine to employee
             for (String machineId : machineIds) {

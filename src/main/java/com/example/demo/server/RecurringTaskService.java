@@ -91,8 +91,6 @@ public class RecurringTaskService {
         newTask.setCreator(recurringTask.getCreator());
         newTask.setDepartment(recurringTask.getDepartment());
         newTask.setRecurring(false);
-        // newTask.setEmailReminder(recurringTask.isEmailReminder());
-        // newTask.setReminderDaysBefore(recurringTask.getReminderDaysBefore());
 
         List<String> employeeIds = recurringTask.getAssignedEmployees()
                 .stream()

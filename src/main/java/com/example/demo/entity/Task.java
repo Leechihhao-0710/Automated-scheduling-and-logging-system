@@ -79,15 +79,6 @@ public class Task {
     @Column
     private LocalDateTime nextExecutionDate;
 
-    // @Column
-    // private Boolean emailReminder = true;
-
-    // @Column
-    // private Integer reminderDaysBefore = 3;
-
-    // @Column
-    // private Boolean reminderSent = false;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -238,30 +229,6 @@ public class Task {
     public void setRecurrenceEndDate(LocalDateTime recurrenceEndDate) {
         this.recurrenceEndDate = recurrenceEndDate;
     }
-
-    // public Boolean isEmailReminder() {
-    // return emailReminder;
-    // }
-
-    // public void setEmailReminder(Boolean emailReminder) {
-    // this.emailReminder = emailReminder;
-    // }
-
-    // public Integer getReminderDaysBefore() {
-    // return reminderDaysBefore;
-    // }
-
-    // public void setReminderDaysBefore(Integer reminderDaysBefore) {
-    // this.reminderDaysBefore = reminderDaysBefore;
-    // }
-
-    // public Boolean isReminderSent() {
-    // return reminderSent;
-    // }
-
-    // public void setReminderSent(Boolean reminderSent) {
-    // this.reminderSent = reminderSent;
-    // }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

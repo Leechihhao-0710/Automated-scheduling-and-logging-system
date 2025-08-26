@@ -64,7 +64,7 @@ public class JwtUtil {
         }
     }
 
-    private Claims extractClaims(String token) {
+    private Claims extractClaims(String token) {// inner method to define analyse the token
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

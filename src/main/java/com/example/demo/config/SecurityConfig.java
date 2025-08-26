@@ -25,9 +25,9 @@ public class SecurityConfig {
 
     public SecurityConfig(@Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+    }// self defined JWT authenticaton filter , check when send request
 
-    @Bean
+    @Bean // core security rule
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
-                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);// return 401 Unauthorized
                             response.getWriter().write("Unauthorized");
                             // response.sendRedirect("/login");
                         }))

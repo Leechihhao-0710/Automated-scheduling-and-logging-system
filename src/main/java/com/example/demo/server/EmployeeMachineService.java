@@ -26,12 +26,12 @@ public class EmployeeMachineService {
 
     public List<EmployeeMachine> getAllAssignments() {
         return employeeMachineRepository.findAllByOrderByAssignedAtDesc();
-    }// check the assignd relations
+    }// check the assigned relations
 
     public EmployeeMachine assignMachineToEmployee(String employeeId, String machineId) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
-        // check emplyee
+        // check employee
         Machine machine = machineRepository.findById(machineId)
                 .orElseThrow(() -> new RuntimeException("Machine not found with id: " + machineId));
         // check machine
@@ -51,7 +51,7 @@ public class EmployeeMachineService {
             throw new RuntimeException("Assignment not found for employee " + employeeId + " and machine " + machineId);
         }
         employeeMachineRepository.deleteByEmployeeIdAndMachineId(employeeId, machineId);
-    }// cancel the assignd machine
+    }// cancel the assigned machine
 
     public List<EmployeeMachine> getMachinesByEmployee(String employeeId) {
         return employeeMachineRepository.findByEmployeeId(employeeId);

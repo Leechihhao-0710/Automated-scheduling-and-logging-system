@@ -21,12 +21,14 @@ import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
+    // oncePerRequestFilter -> to avoid duplicate authentication(every request can
+    // only request one time)
     private final JwtUtil jwtUtil;
     private final EmployeeService employeeService;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil, @Lazy EmployeeService employeeService) {
-        this.jwtUtil = jwtUtil;
+        // @Lazy -> to avoid the circular dependency between @Bean
+        this.jwtUtil = jwtUtil; // JWT generate , authenticate , analyse
         this.employeeService = employeeService;
     }
 
@@ -34,6 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
         return path.equals("/api/login");
+        // when enter the login page, do not need filter
     }
 
     @Override
@@ -41,12 +44,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain)
             throws ServletException, IOException {
-
+        // Token validation and user authentication logic
         String authHeader = request.getHeader("Authorization");
-
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String jwt = authHeader.substring(7);
-
             try {
                 if (jwtUtil.isTokenValid(jwt)) {
                     String employeeNumber = jwtUtil.extractUsername(jwt);
@@ -67,6 +68,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     new WebAuthenticationDetailsSource().buildDetails(request));
 
                             SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                            // the flow: find the employee -> establish spring security authentication ->
+                            // store into securityContextHolder
                         }
                     }
                 }
@@ -74,7 +78,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println("JWT auth failed：" + e.getMessage());
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }

@@ -52,7 +52,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeMachineService employeeMachineService;
 
-    // @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public String showDepartmentManagementPage(@AuthenticationPrincipal Employee employee, Model model) {
         model.addAttribute("user", employee);
@@ -60,8 +59,10 @@ public class EmployeeController {
         return "admin/employee_management";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')") // only admin can access the page
     @GetMapping("/list")
+    // this method allow admin select(filter) employees by search , departmentId ,
+    // role and return employees/list.html
     public String ListEmployees(@RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "department", required = false) Integer departmentId,
             @RequestParam(value = "role", required = false) Role role, Model model) {
@@ -106,7 +107,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/create")
+    @GetMapping("/create") // show the establish employee table
     public String showCreateForm(Model model) {
         Employee employee = new Employee();
         employee.setEmployeeNumber(employeeService.getNextEmployeeNumber());
@@ -121,7 +122,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+    @PostMapping // apply the empliyee table to create employee
     public String createEmployee(@ModelAttribute Employee employee,
             @RequestParam(required = false) Integer departmentId,
             @RequestParam(required = false) List<String> machineIds,
@@ -139,7 +140,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("{id}/edit")
+    @GetMapping("{id}/edit") // show the edit modal
     public String showEditForm(@PathVariable String id, Model model) {
         try {
             Employee employee = employeeService.getEmployeeByIdOrThrow(id);
@@ -260,11 +261,6 @@ public class EmployeeController {
         return "employees/stats";
     }
 
-    // @GetMapping("/api/all") // get all employees JSON API
-    // @ResponseBody
-    // public List<Employee> getAllEmployeesApi() {
-    // return employeeService.getAllEmployees();
-    // }
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/all")
     @ResponseBody
@@ -318,7 +314,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/api/stats") // retrive the calculate data
+    @GetMapping("/api/stats") // retrieve the calculate data
     @ResponseBody
     public Map<String, Object> getStats() {
         Map<String, Object> stats = new HashMap<>();
@@ -369,9 +365,6 @@ public class EmployeeController {
             Integer departmentId = (Integer) employeeData.get("departmentId");
             Employee savedEmployee = employeeService.createEmployee(employee, departmentId);
 
-            // System.out.println("=== DEBUG INFO ===");
-            // System.out.println("Saved employee ID: '" + savedEmployee.getId() + "'");
-            // System.out.println("Employee ID length: " + savedEmployee.getId().length());
             Employee verifyEmployee = employeeService.getEmployeeByIdOrThrow(savedEmployee.getId());
 
             @SuppressWarnings("unchecked")
@@ -466,7 +459,7 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/api/next-number")
+    @GetMapping("/api/next-number") // get next employee number
     public ResponseEntity<Integer> getNextEmployeeNumber() {
         return ResponseEntity.ok(employeeService.getNextEmployeeNumber());
     }

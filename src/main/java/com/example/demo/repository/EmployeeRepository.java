@@ -52,7 +52,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     @Query("select e from Employee e where e.department is null")
     List<Employee> findEmployeesWithoutDepartment();
 
-    // @Query("select distinct e from Employee e left join fetch e.employeeMachines
-    // em left join fetch em.machine order by e,employeeNumber")
-    // List<Employee> findAllWithMachines();
 }

@@ -115,12 +115,7 @@ public class TaskService {
                 task.setRecurrenceEndDate(taskDetails.getRecurrenceEndDate());
             }
         }
-        // if (taskDetails.isEmailReminder() != null) {
-        // task.setEmailReminder(taskDetails.isEmailReminder());
-        // }
-        // if (taskDetails.getReminderDaysBefore() != null) {
-        // task.setReminderDaysBefore(taskDetails.getReminderDaysBefore());
-        // }
+
         if (employeeIds != null || departmentId != null) {
             taskAssignmentRepository.deleteByTaskId(id);
             return createTaskWithAssignments(task, departmentId, employeeIds);
@@ -378,7 +373,7 @@ public class TaskService {
     }
 
     public void deleteUserTask(Long taskId, String employeeId) {
-        if (!isTaskCreatedByUser(taskId, employeeId)) {// ensure the emplyee can only delete the task that created by
+        if (!isTaskCreatedByUser(taskId, employeeId)) {// ensure the employee can only delete the task that created by
                                                        // themselves
             throw new RuntimeException("You can only delete tasks created by yourself");
         }

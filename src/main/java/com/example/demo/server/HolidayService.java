@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class HolidayService {
 
     public boolean isWeekendOrHoliday(LocalDateTime date) {
+        // to set the holiday date(christmas day) according to different countries
         DayOfWeek dayOfWeek = date.getDayOfWeek();
 
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {

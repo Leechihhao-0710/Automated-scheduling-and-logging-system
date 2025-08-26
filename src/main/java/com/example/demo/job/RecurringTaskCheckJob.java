@@ -12,12 +12,14 @@ import com.example.demo.server.RecurringTaskService;
 @Component
 public class RecurringTaskCheckJob implements Job {// Quartz job interface
 
-    @Autowired
+    @Autowired // import the recurringTaskService to handle the recurring task logics
     private RecurringTaskService recurringTaskService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {// Job's method
         JobKey jobKey = context.getJobDetail().getKey();
+        // in JobExecutionContext has Quartz job's information , trigger , schedule
+        // status
 
         try {
             if ("WEEKLY_CHECK".equals(jobKey.getName())) {
