@@ -10,7 +10,7 @@ async function loadDashboardData() {
         const [employeeStats, taskStats] = await Promise.all([
             loadEmployeeStats(),
             loadTaskStats()
-        ]);
+        ]);//use promise all to load together
 
         updateStatsCards(employeeStats, taskStats);
         
@@ -22,7 +22,7 @@ async function loadDashboardData() {
 
 async function loadEmployeeStats() {
     try {
-        const response = await authFetch('/employees/api/stats');
+        const response = await authFetch('/employees/api/stats');//use authFetch -> with JWT in the header to get access
         if (response.ok) {
             return await response.json();
         } else {
@@ -59,7 +59,7 @@ function updateStatsCards(employeeStats, taskStats) {
     if (totalEmployeesEl) {
         totalEmployeesEl.textContent = employeeStats.totalEmployees || 0;
         totalEmployeesEl.addEventListener('click',() => {
-            window.location.href='/employees';
+            window.location.href='/employees';//click the window will direct to /employees page
         })
     }
     
