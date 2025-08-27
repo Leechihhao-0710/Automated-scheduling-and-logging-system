@@ -47,7 +47,7 @@ async function loadAllEmployees() {
 
 function populateDepartmentFilter() {
     const departmentFilter = document.getElementById('departmentFilter');
-    departmentFilter.innerHTML = '<option value="">All Departments</option>';
+    departmentFilter.innerHTML = '<option value="">All Departments</option>';//default al departments
     
     departments.forEach(dept => {
         const option = document.createElement('option');
@@ -73,7 +73,7 @@ async function onDepartmentChange() {
                     option.value = emp.id;
                     option.textContent = `${emp.name} (${emp.employeeNumber})`;
                     employeeFilter.appendChild(option);
-                });
+                });//list the employees in the specific department
             }
         } catch (error) {
             console.error('Error loading department employees:', error);

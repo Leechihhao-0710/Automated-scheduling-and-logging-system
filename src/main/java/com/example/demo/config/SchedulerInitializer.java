@@ -46,7 +46,7 @@ public class SchedulerInitializer implements ApplicationRunner {
 
         Trigger reminderTrigger = TriggerBuilder.newTrigger()
                 .withIdentity("REMINDER_TRIGGER", "NOTIFICATIONS")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 9 * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 17 7 * * ?"))
                 .build();
 
         if (scheduler.checkExists(weeklyJob.getKey())) {
