@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.TimeZone;
+
 import org.quartz.*;
 
 import com.example.demo.job.RecurringTaskCheckJob;
@@ -46,7 +49,9 @@ public class SchedulerInitializer implements ApplicationRunner {
 
         Trigger reminderTrigger = TriggerBuilder.newTrigger()
                 .withIdentity("REMINDER_TRIGGER", "NOTIFICATIONS")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 17 7 * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 24 14 * * ?")
+                        .inTimeZone(TimeZone.getTimeZone("Asia/Bangkok"))
+                        .withMisfireHandlingInstructionFireAndProceed())
                 .build();
 
         if (scheduler.checkExists(weeklyJob.getKey())) {
