@@ -57,7 +57,7 @@ services:
       MAIL_HOST: smtp.gmail.com
       MAIL_PORT: 587
       MAIL_USERNAME: chihhao1study@gmail.com
-      MAIL_PASSWORD: dehzjsbdqlmtvlwz
+      MAIL_PASSWORD: mmmtjcgjamozhppr
       MAIL_FROM: chihhao1study@gmail.com
       EMAIL_ENABLED: true
       
